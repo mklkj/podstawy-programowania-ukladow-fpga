@@ -1,3 +1,5 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "cert-msc50-cpp"
 #pragma ide diagnostic ignored "cert-msc50-cpp"
 #pragma ide diagnostic ignored "cert-msc51-cpp"
 
@@ -8,27 +10,28 @@
 int main() {
     srand(time(NULL));
 
-    const int c = 3;
+    const int n = 4; // 10, 20
+    const float min = -100; // 10^6
+    const float max = +100; // 10^6
 
-    float A[c][c];
-    float x[c];
-    float B[c];
+    float A[n][n];
+    float x[n];
+
+    float B[n];
 
     float suma = 0;
 
-    for (int i = 0; i < c; i++) {
-        for (int j = 0; j < c; j++) {
-            //A[i][j] = ((rand() % 200) - 100) / 10000.f;
-            A[i][j] = -100 + (float) rand() / RAND_MAX * (100 - -100);
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            A[i][j] = min + (float) rand() / RAND_MAX * (max - min);
         }
     }
-    for (int i = 0; i < c; i++) {
-        x[i] = -100 + (float) rand() / RAND_MAX * (100 - -100);
-        //x[i] = (rand() % 200) - 100;
+    for (int i = 0; i < n; i++) {
+        x[i] = min + (float) rand() / RAND_MAX * (max - min);
     }
 
-    for (int i = 0; i < c; i++) {
-        for (int j = 0; j < c; j++) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
             suma += A[i][j] * x[j];
         }
         B[i] = suma;
@@ -38,18 +41,20 @@ int main() {
 
 
 
-    for (int i = 0; i < c; i++) {
-        for (int j = 0; j < c; j++) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
             printf("%f | ", A[i][j]);
         }
         printf("\n");
     }
-    for (int i = 0; i < c; i++) {
+    for (int i = 0; i < n; i++) {
         printf("| %f | \n", x[i]);
     }
     printf("Wynik ---------------------\n");
-    for (int i = 0; i < c; i++) {
+    for (int i = 0; i < n; i++) {
         printf("%.14f | \n", B[i]);
     }
     return 0;
 }
+
+#pragma clang diagnostic pop
