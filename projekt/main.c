@@ -98,7 +98,9 @@ bool GCObliczX(int n, double X[], double AB[][N + 1], const int WK[]) {
     for (i = n - 1; i >= 0; i--) {
         if (fabs(AB[i][WK[i]]) < EPS) return false;
         s = AB[i][n];
-        for (j = n - 1; j > i; j--) s -= AB[i][WK[j]] * X[WK[j]];
+        for (j = n - 1; j > i; j--) {
+            s -= AB[i][WK[j]] * X[WK[j]];
+        }
         X[WK[i]] = s / AB[i][WK[i]];
     }
     return true;
@@ -113,8 +115,8 @@ void solve(double AB[N][N + 1], double x_solved[N], int WK[N]) {
 void check_result(const double x_original[N], const double x_solved[N]) {
     for (int i = 0; i < N; ++i) {
         if (x_original[i] == x_solved[i]) {
-            printf("Position %d match - o: %f, s: %f\n", i, x_original[i], x_solved[i]);
-        } else printf("Position %d not match! - o: %f, s: %f\n", i, x_original[i], x_solved[i]);
+            printf("Position %d match - expected: %.15f, actual: %.15f\n", i, x_original[i], x_solved[i]);
+        } else printf("Position %d not match! - expected: %.15f, actual: %.15f\n", i, x_original[i], x_solved[i]);
     }
 }
 
