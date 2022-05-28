@@ -7,29 +7,47 @@
 #include "time.h"
 #include "stdlib.h"
 
+const int n = 4; // 10, 20
+const float min = -100; // 10^6
+const float max = +100; // 10^6
+
+void generate_matrix_values(float A[n][n], float x[n], float B[n]);
+
+void print_result(float A[n][n], float x[n], float B[n]);
+
+void solve(float A[n][n], float B[n], float x_solved[n]);
+
+void check_result(float x_original[n], float x_solved[n]);
+
 int main() {
     srand(time(NULL));
 
-    const int n = 4; // 10, 20
-    const float min = -100; // 10^6
-    const float max = +100; // 10^6
-
     float A[n][n];
     float x[n];
-
     float B[n];
 
-    float suma = 0;
+    float x_solved[n];
 
+    generate_matrix_values(A, x, B);
+    solve(A, B, x_solved);
+    check_result(x, x_solved);
+    print_result(A, x, B);
+
+    return 0;
+}
+
+void generate_matrix_values(float A[n][n], float x[n], float B[n]) {
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
             A[i][j] = min + (float) rand() / RAND_MAX * (max - min);
         }
     }
+
     for (int i = 0; i < n; i++) {
         x[i] = min + (float) rand() / RAND_MAX * (max - min);
     }
 
+    float suma = 0;
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
             suma += A[i][j] * x[j];
@@ -37,10 +55,18 @@ int main() {
         B[i] = suma;
         suma = 0;
     }
+}
 
+void solve(float A[n][n], float B[n], float x_solved[n]) {
+    // metoda gaussa z wyborem elementu głównego
+    // todo
+}
 
+void check_result(float x_original[n], float x_solved[n]) {
+    // todo
+}
 
-
+void print_result(float A[n][n], float x[n], float B[n]) {
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
             printf("%f | ", A[i][j]);
@@ -54,7 +80,6 @@ int main() {
     for (int i = 0; i < n; i++) {
         printf("%.14f | \n", B[i]);
     }
-    return 0;
 }
 
 #pragma clang diagnostic pop
