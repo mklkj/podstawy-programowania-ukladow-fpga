@@ -8,7 +8,7 @@
 #include "stdbool.h"
 #include "math.h"
 
-const int N = 4; // 10, 20
+#define N 4 // 10, 20
 const float MIN = -100; // -10^6
 const float MAX = +100; // +10^6
 const double EPS = 0.0000000001; // dokładność porównania z zerem
@@ -36,36 +36,48 @@ int main() {
 }
 
 void generate_matrix_values(double AB[N][N + 1], double x[N], int WK[N]) {
+    int i, j;
+
     // AB
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
+    printf("Macierz A\n");
+    for (i = 0; i < N; i++) {
+        for (j = 0; j < N; j++) {
             AB[i][j] = MIN + (float) rand() / (float) RAND_MAX * (MAX - MIN);
+            printf("| %5f |", AB[i][j]);
         }
+        printf("\n");
     }
+    printf("\n");
 
     // WK
-    for (int i = 0; i < N + 1; ++i) {
+    for (i = 0; i < N + 1; ++i) {
         WK[i] = i;
     }
 
     // x
-    for (int i = 0; i < N; i++) {
+    printf("Wektor X (oryginalny)\n");
+    for (i = 0; i < N; i++) {
         x[i] = MIN + (float) rand() / (float) RAND_MAX * (MAX - MIN);
+        printf("%5f \n", x[i]);
     }
+    printf("\n");
 
     // B
+    printf("Wektor B (obliczony)\n");
     double B[N];
     double suma = 0;
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
+    for (i = 0; i < N; i++) {
+        for (j = 0; j < N; j++) {
             suma += AB[i][j] * x[j];
         }
         B[i] = suma;
+        printf("%5f\n", B[i]);
         suma = 0;
     }
+    printf("\n");
 
     // AB
-    for (int i = 0; i < N + 1; ++i) {
+    for (i = 0; i < N + 1; ++i) {
         AB[i][N] = B[i];
     }
 }
@@ -107,16 +119,21 @@ bool GCObliczX(int n, double X[], double AB[][N + 1], const int WK[]) {
 }
 
 void solve(double AB[N][N + 1], double x_solved[N], int WK[N]) {
-    if (GCEliminujX(N, AB, WK) && GCObliczX(N, x_solved, AB, WK)) {
-        printf("Solving succssed!\n");
-    } else printf("Solving failed\n");
+    GCEliminujX(N, AB, WK) && GCObliczX(N, x_solved, AB, WK);
 }
 
 void check_result(const double x_original[N], const double x_solved[N]) {
-    for (int i = 0; i < N; ++i) {
-        if (x_original[i] == x_solved[i]) {
-            printf("Position %d match - expected: %.15f, actual: %.15f\n", i, x_original[i], x_solved[i]);
-        } else printf("Position %d not match! - expected: %.15f, actual: %.15f\n", i, x_original[i], x_solved[i]);
+    int i;
+
+    printf("Wektor X' (obliczony)\n");
+    for (i = 0; i < N; i++) {
+        printf("%5f \n", x_solved[i]);
+    }
+    printf("\n");
+
+    printf("Porownanie\n");
+    for (i = 0; i < N; ++i) {
+        printf("%3e\n", x_original[i] - x_solved[i]);
     }
 }
 
