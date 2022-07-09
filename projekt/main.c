@@ -8,9 +8,9 @@
 #include "stdbool.h"
 #include "math.h"
 
-#define N 4 // 10, 20
-const float MIN = -100; // -10^6
-const float MAX = +100; // +10^6
+#define N 20
+const float MIN = -1000000;
+const float MAX = +1000000;
 const double EPS = 0.0000000001; // dokładność porównania z zerem
 
 void generate_matrix_values(double AB[N][N + 1], double x[N], int WK[N]);
