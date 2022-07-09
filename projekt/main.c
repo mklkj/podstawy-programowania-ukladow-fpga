@@ -39,8 +39,8 @@ void printf_nios(char str[]) {
     }
 }
 
-void printf_nios2(char str[], double arg) {
-    char buf[32];
+char buf[32]; // shared buffer
+void printf_nios_arg(char str[], double arg) {
     sprintf(buf, str, arg);
     printf_nios(buf);
 }
@@ -69,7 +69,7 @@ void generate_matrix_values(double AB[N][N + 1], double x[N], int WK[N]) {
     for (i = 0; i < N; i++) {
         for (j = 0; j < N; j++) {
             AB[i][j] = MIN + (float) rand() / (float) RAND_MAX * (MAX - MIN);
-            printf_nios2("| %5f |", AB[i][j]);
+            printf_nios_arg("| %5f |", AB[i][j]);
         }
         printf_nios("\r\n");
     }
@@ -84,7 +84,7 @@ void generate_matrix_values(double AB[N][N + 1], double x[N], int WK[N]) {
     printf_nios("Wektor X (oryginalny)\r\n");
     for (i = 0; i < N; i++) {
         x[i] = MIN + (float) rand() / (float) RAND_MAX * (MAX - MIN);
-        printf_nios2("%5f\r\n", x[i]);
+        printf_nios_arg("%5f\r\n", x[i]);
     }
     printf_nios("\r\n");
 
@@ -97,7 +97,7 @@ void generate_matrix_values(double AB[N][N + 1], double x[N], int WK[N]) {
             suma += AB[i][j] * x[j];
         }
         B[i] = suma;
-        printf_nios2("%5f\r\n", B[i]);
+        printf_nios_arg("%5f\r\n", B[i]);
         suma = 0;
     }
     printf_nios("\r\n");
@@ -153,13 +153,13 @@ void check_result(const double x_original[N], const double x_solved[N]) {
 
     printf_nios("Wektor X' (obliczony)\r\n");
     for (i = 0; i < N; i++) {
-        printf_nios2("%5f \r\n", x_solved[i]);
+        printf_nios_arg("%5f \r\n", x_solved[i]);
     }
     printf_nios("\r\n");
 
     printf_nios("Porownanie\r\n");
     for (i = 0; i < N; ++i) {
-        printf_nios2("%3e\r\n", x_original[i] - x_solved[i]);
+        printf_nios_arg("%3e\r\n", x_original[i] - x_solved[i]);
     }
 }
 
