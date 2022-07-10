@@ -1,19 +1,16 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "cert-msc50-cpp"
-#pragma ide diagnostic ignored "cert-msc51-cpp"
-
-#include "time.h"
-#include "stdlib.h"
-#include "stdbool.h"
-
-//#include "system.h"
-//#include "alt_types.h"
+#include "system.h"
+#include "alt_types.h"
 #include "math.h"
-//#include "altera_avalon_uart_regs.h"
-//#include "altera_avalon_pio_regs.h"
+#include "altera_avalon_uart_regs.h"
+#include "altera_avalon_pio_regs.h"
 #include "string.h"
 #include <stddef.h>
+
+#include "time.h"
+#include "stdbool.h"
 #include <stdio.h>
+#include "stdlib.h"
+//#define RAND_MAX 0x7fffffff
 
 #define N 20
 const float MIN = -1000000;
@@ -27,9 +24,8 @@ void solve(double AB[N][N + 1], double x_solved[N], int WK[N]);
 void check_result(const double x_original[N], const double x_solved[N]);
 
 void send_char(char c) {
-//    while ((IORD_ALTERA_AVALON_UART_STATUS(UART_BASE) & ALTERA_AVALON_UART_STATUS_TRDY_MSK) == 0);
-//    IOWR_ALTERA_AVALON_UART_TXDATA(UART_BASE, c);
-    printf("%c", c);
+    while ((IORD_ALTERA_AVALON_UART_STATUS(UART_BASE) & ALTERA_AVALON_UART_STATUS_TRDY_MSK) == 0);
+    IOWR_ALTERA_AVALON_UART_TXDATA(UART_BASE, c);
 }
 
 void printf_nios(char str[]) {
@@ -162,5 +158,3 @@ void check_result(const double x_original[N], const double x_solved[N]) {
         printf_nios_arg("%3e\r\n", x_original[i] - x_solved[i]);
     }
 }
-
-#pragma clang diagnostic pop
